@@ -1,20 +1,60 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <div class="row justify-content-md-center welcome-block">
+    <!--Show an initial text.-->
+    <div class="text-center" *ngIf="currentQuestionId === undefined">
+      <h3>
+        Welcome to the simple quiz-game about a trainee developer!
+      </h3>
+      <div id="welcome-text" class="jumbotron">
+        Hello, dear friend.
+        You're an intern in a software company.
+        Your goal is study enough fast to pass an exam after a week of work.
+        But care about your motivation to do not burn out.
+      </div>
+      <button class="btn btn-success" (click)="startGame(options)">Start the game</button>
+    </div>
+  </div>
+  <!--Show the header with scores.-->
+  <div class="row justify-content-md-center scores-bar" *ngIf="currentQuestion || showFinalResult">
+    <div class="col-md-4 font-weight-bold motivation-score">
+      <span class="badge  badge-light">Motivation: {{playerMotivation}}</span>
+      <span class="badge" *ngIf="showQuestionResult" [ngClass]="{'badge-danger': currentAnswerResult.p1 < 0, 'badge-success': currentAnswerResult.p1 >= 0}">
+        {{formatScore(currentAnswerResult.p1)}}
+      </span>
+    </div>
+    <div class="col-md-4 offset-md-4 font-weight-bold">
+      <span class="badge  badge-light">Knowledge: {{playerKnowledge}}</span>
+      <span class="badge" *ngIf="showQuestionResult" [ngClass]="{'badge-danger': currentAnswerResult.p2 < 0, 'badge-success': currentAnswerResult.p2 >= 0}">
+        {{formatScore(currentAnswerResult.p2)}}
+      </span>
+    </div>
+  </div>
+  <!--Show the question form.-->
+  <div class="row justify-content-md-center" *ngIf="currentQuestion && !showQuestionResult">
+    <!--@todo move qtext inside of the form?-->
+    <div class="col-12 text-center form-group">{{currentQuestion.qtext}}</div>
+    <div class="col-12">
+      <app-question-form
+        [answers]="currentQuestion.answers"
+        (submittedData)="onSubmitAnswer($event)">
+      </app-question-form>
+    </div>
+  </div>
+  <div class="row justify-content-md-center answer-result">
+    <!--Show result of the question.-->
+    <div id="question-result" class="text-center" *ngIf="showQuestionResult">
+      <div class="jumbotron">
+        {{ currentAnswerResult.rtext }}
+      </div>
+      <button class="btn btn-success" (click)="getNextQuestion()">Next step</button>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <!--Show final result.-->
+    <div id="final-text" getNextQuestionclass="text-center" *ngIf="showFinalResult">
+      <div>FINAL TEXT!</div>
+      <br />
+      <button class="btn btn-success" (click)="restartGame()">Try again</button>
+    </div>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
