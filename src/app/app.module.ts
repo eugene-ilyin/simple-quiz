@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
 
-import { AppComponent } from './app.component';
-import { QuestionFormComponent } from './question-form/question-form.component';
+import { AppComponent } from './components/app/app.component';
+import { QuestionFormComponent } from './components/question-form/question-form.component';
+
+import { reducers, metaReducers } from './store/reducers';
 
 @NgModule({
   declarations: [
@@ -13,7 +16,8 @@ import { QuestionFormComponent } from './question-form/question-form.component';
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
   ],
   providers: [],
   bootstrap: [AppComponent]

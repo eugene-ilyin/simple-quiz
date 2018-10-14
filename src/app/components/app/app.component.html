@@ -1,7 +1,7 @@
 <div class="container">
-  <div class="row justify-content-md-center welcome-block">
+  <div class="row justify-content-md-center welcome-block" *ngIf="!(currentQuestion$ | async) && !showFinalResult">
     <!--Show an initial text.-->
-    <div class="text-center" *ngIf="currentQuestionId === undefined">
+    <div class="text-center">
       <h3>
         Welcome to the simple quiz-game about a trainee developer!
       </h3>
@@ -11,38 +11,36 @@
         Your goal is study enough fast to pass an exam after a week of work.
         But care about your motivation to do not burn out.
       </div>
-      <button class="btn btn-success" (click)="startGame(options)">Start the game</button>
+      <button class="btn btn-success" (click)="startGame()">Start the game</button>
     </div>
   </div>
   <!--Show the header with scores.-->
-  <div class="row justify-content-md-center scores-bar" *ngIf="currentQuestion || showFinalResult">
+  <div class="row justify-content-md-center scores-bar" *ngIf="(currentQuestion$ | async) || showFinalResult">
     <div class="col-md-4 font-weight-bold motivation-score">
       <span class="badge  badge-light">Motivation: {{playerMotivation}}</span>
-      <span class="badge" *ngIf="showQuestionResult" [ngClass]="{'badge-danger': currentAnswerResult.p1 < 0, 'badge-success': currentAnswerResult.p1 >= 0}">
-        {{formatScore(currentAnswerResult.p1)}}
+      <span class="badge" *ngIf="currentAnswerResult" [ngClass]="{'badge-danger': currentAnswerResult.p1 < 0, 'badge-success': currentAnswerResult.p1 >= 0}">
+        {{_formatScore(currentAnswerResult.p1)}}
       </span>
     </div>
     <div class="col-md-4 offset-md-4 font-weight-bold">
       <span class="badge  badge-light">Knowledge: {{playerKnowledge}}</span>
-      <span class="badge" *ngIf="showQuestionResult" [ngClass]="{'badge-danger': currentAnswerResult.p2 < 0, 'badge-success': currentAnswerResult.p2 >= 0}">
-        {{formatScore(currentAnswerResult.p2)}}
+      <span class="badge" *ngIf="currentAnswerResult" [ngClass]="{'badge-danger': currentAnswerResult.p2 < 0, 'badge-success': currentAnswerResult.p2 >= 0}">
+        {{_formatScore(currentAnswerResult.p2)}}
       </span>
     </div>
   </div>
   <!--Show the question form.-->
-  <div class="row justify-content-md-center" *ngIf="currentQuestion && !showQuestionResult">
-    <!--@todo move qtext inside of the form?-->
-    <div class="col-12 text-center form-group">{{currentQuestion.qtext}}</div>
+  <div class="row justify-content-md-center" *ngIf="(currentQuestion$ | async) && !currentAnswerResult">
     <div class="col-12">
       <app-question-form
-        [answers]="currentQuestion.answers"
+        [question]="currentQuestion$ | async"
         (submittedData)="onSubmitAnswer($event)">
       </app-question-form>
     </div>
   </div>
-  <div class="row justify-content-md-center answer-result">
+  <div class="row justify-content-md-center answer-result" *ngIf="currentAnswerResult">
     <!--Show result of the question.-->
-    <div id="question-result" class="text-center" *ngIf="showQuestionResult">
+    <div id="question-result" class="text-center">
       <div class="jumbotron">
         {{ currentAnswerResult.rtext }}
       </div>

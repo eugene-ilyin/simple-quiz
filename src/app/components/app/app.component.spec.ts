@@ -1,8 +1,8 @@
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';
-import { QuestionFormComponent } from './question-form/question-form.component';
+import { QuestionFormComponent } from '../question-form/question-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { QUESTIONS } from './data-questions';
+import { QUESTIONS } from '../../../data/data-questions';
 
 describe('AppComponent', () => {
   let component: AppComponent;

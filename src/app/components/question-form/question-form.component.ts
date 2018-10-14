@@ -1,16 +1,18 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import {IAnswer} from "../interfaces/ianswer";
+import {IQuestion} from '../../interfaces/iquestion';
+import {IAnswer} from '../../interfaces/ianswer';
 
 @Component({
   selector: 'app-question-form',
   templateUrl: './question-form.component.html',
 })
 export class QuestionFormComponent implements OnChanges {
-  @Input() answers: Array<IAnswer>;
+  @Input() question: IQuestion;
   @Output() submittedData = new EventEmitter<object>();
 
-  currentAnswers: Array<string> = [];
+  questionText = '';
+  answersList: IAnswer[] = [];
 
   questionForm: FormGroup = new FormGroup({
     answerId: new FormControl('')
@@ -20,8 +22,9 @@ export class QuestionFormComponent implements OnChanges {
 
   ngOnChanges (changes: SimpleChanges) {
     // Refresh possible answers in the form.
-    if (changes.answers && changes.answers.currentValue) {
-      this.currentAnswers = changes.answers.currentValue.map(item => item.atext);
+    if (changes.question && changes.question.currentValue) {
+      this.answersList = changes.question.currentValue.answers.map(item => item.atext);
+      this.questionText = changes.question.currentValue.qtext;
     }
   }
 

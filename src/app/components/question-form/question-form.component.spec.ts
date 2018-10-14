@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SimpleChange } from '@angular/core';
 import { QuestionFormComponent } from './question-form.component';
-import {IQuestion} from "../interfaces/iquestion";
-import {QUESTIONS} from "../data-questions";
+import {IQuestion} from "../../interfaces/iquestion";
+import {QUESTIONS} from "../../../data/data-questions";
 
 describe('QuestionFormComponent', () => {
   let component: QuestionFormComponent;

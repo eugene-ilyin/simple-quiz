@@ -1,5 +1,6 @@
 <form class="questions-form" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-  <div class="alert alert-secondary" role="alert" *ngFor="let currentAnswer of currentAnswers; let i = index;" (click)="clickLine($event.target)">
+  <div class="form-group">{{questionText}}</div>
+  <div class="alert alert-secondary" role="alert" *ngFor="let answer of answersList; let i = index;" (click)="clickLine($event.target)">
     <div class="form-group">
       <input
         class="form-check-input"
@@ -9,7 +10,7 @@
         value="{{i}}"
         required
       />
-      <label class="form-check-label" for="option{{i}}">{{currentAnswer}}</label>
+      <label class="form-check-label" for="option{{i}}">{{answer}}</label>
     </div>
   </div>
   <div class="text-center">
