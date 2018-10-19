@@ -20,17 +20,20 @@ export class AppComponent implements OnDestroy {
   questions = QUESTIONS;
 
   currentQuestion$: Observable<IQuestion>;
+  stepInfo$: Observable<Object>;
   currentAnswerResult: IAnswerResult;
 
   playerMotivation: number;
   playerKnowledge: number;
 
   showFinalResult = false;
+  showWelcomeText = true;
 
   private _subs = [];
 
   constructor(private store: Store<fromRoot.State>) {
     this.currentQuestion$ = store.pipe(select(fromRoot.getCurrentQuestion));
+    this.stepInfo$ = store.pipe(select(fromRoot.getStepInfo));
 
     // Hide the question result each time when we move to the next question.
     this._subs.push(
@@ -86,10 +89,11 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new questionsAction.NextQuestion());
     this.playerMotivation = 100;
     this.playerKnowledge = 0;
+    this.showWelcomeText = false;
   }
 
   // Track submit of the question form.
-  onSubmitAnswer = data => {
+  onSubmitAnswer(data) {
     this.store.dispatch(new questionsAction.ChooseAnswer(data.answerId));
   }
 
@@ -106,6 +110,7 @@ export class AppComponent implements OnDestroy {
   // Restarts the game.
   restartGame(): void {
     this.showFinalResult = false;
+    this.showWelcomeText = true;
   }
 
   _getRandomInt(min, max): number {

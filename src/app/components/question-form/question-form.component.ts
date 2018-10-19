@@ -9,6 +9,8 @@ import {IAnswer} from '../../interfaces/ianswer';
 })
 export class QuestionFormComponent implements OnChanges {
   @Input() question: IQuestion;
+  // @todo define a special type for steps.
+  @Input() stepInfo: any;
   @Output() submittedData = new EventEmitter<object>();
 
   questionText = '';

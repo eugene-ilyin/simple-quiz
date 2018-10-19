@@ -11,6 +11,7 @@ export interface State {
   chosenAnswer: IAnswer;
   questions: IQuestion[];
   noMoreQuestions: boolean;
+  step: Object;
 }
 
 export const initialState: State = {
@@ -18,7 +19,8 @@ export const initialState: State = {
   currentQuestion: null,
   chosenAnswer: null,
   questions: QUESTIONS,
-  noMoreQuestions: false
+  noMoreQuestions: false,
+  step: null
 };
 
 export function reducer(state = initialState, action: questionsAction.Action) {
@@ -31,7 +33,11 @@ export function reducer(state = initialState, action: questionsAction.Action) {
           ...state,
           currentQuestionId: nextId,
           currentQuestion: state.questions[nextId],
-          chosenAnswer: null
+          chosenAnswer: null,
+          step: {
+            currentStep: nextId + 1,
+            totalSteps: state.questions.length
+          }
         };
         //  No more questions.
       } else {
@@ -56,5 +62,6 @@ export function reducer(state = initialState, action: questionsAction.Action) {
 }
 
 export const getCurrentQuestion = (state: State) => state.currentQuestion;
+export const getStepInfo = (state: State) => state.step;
 export const getChosenAnswer = (state: State) => state.chosenAnswer;
 export const isNoMoreQuestions = (state: State) => state.noMoreQuestions;

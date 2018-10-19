@@ -25,6 +25,11 @@ export const getCurrentQuestion = createSelector(
   fromQuestions.getCurrentQuestion,
 );
 
+export const getStepInfo = createSelector(
+  getQuestionsState,
+  fromQuestions.getStepInfo,
+);
+
 export const getChosenAnswer = createSelector(
   getQuestionsState,
   fromQuestions.getChosenAnswer,
