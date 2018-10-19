@@ -1,0 +1,113 @@
+.container {
+  width: 800px;
+  margin: auto;
+  border-radius: 10px;
+  background-color: #EAEDED;
+  padding: 20px;
+
+  &__text-message {
+    padding: 10px 10px 10px 10px;
+
+    text-align: center;
+    font-size: 2rem;
+  }
+}
+
+.scores-bar {
+  display: flex;
+  justify-content: space-between;
+
+  &__score {
+    span {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+
+    &_positive {
+      color: #229954;
+    }
+    &_negative {
+      color: #CB4335;
+    }
+  }
+}
+
+.button-wrapper {
+  padding: 10px 0;
+  text-align: center;
+
+  button.button_success {
+    font-size: 2rem;
+    padding: 5px 15px;
+    border-radius: 10px;
+    background-color: #2ECC71;
+    border: 1px solid #27AE60;
+    color: white;
+
+    &:hover {
+      background-color: #27AE60;
+      cursor: pointer;
+    }
+    &:disabled {
+      background-color: #F2F3F4;
+      border-color: #E5E7E9;
+      color: #000;
+    }
+  }
+}
+
+.button-wrapper__next-button {
+  display: flex;
+  align-items: center;
+
+  span {
+    flex-grow: 3;
+    font-size: 1.5rem;
+  }
+
+  button {
+    flex-grow: 1;
+  }
+}
+
+.questions-form {
+  &__option-wrapper {
+    padding: 5px 0;
+
+    .questions-form__option {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #F2F3F4;
+
+      &:hover {
+        background-color: #F8F9F9;
+        cursor: pointer;
+      }
+
+      label {
+        font-size: 1.5rem;
+        &:hover {
+          cursor: pointer;
+        }
+      };
+    }
+  }
+
+  .alert {
+    padding-left: 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .motivation-score {
+    text-align: right;
+  }
+}
+
+.scores-bar {
+  margin-bottom: 10px;
+}
+
+.scores-bar .badge {
+  font-size: 150%;
+}

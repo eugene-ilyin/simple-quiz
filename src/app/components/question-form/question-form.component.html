@@ -1,9 +1,8 @@
 <form class="questions-form" [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">{{questionText}}</div>
-  <div class="alert alert-secondary" role="alert" *ngFor="let answer of answersList; let i = index;" (click)="clickLine($event.target)">
-    <div class="form-group">
+  <div class="container__text-message">{{questionText}}</div>
+  <div class="questions-form__option-wrapper" *ngFor="let answer of answersList; let i = index;" (click)="clickLine($event.target)">
+    <div class="questions-form__option">
       <input
-        class="form-check-input"
         type="radio"
         id="option{{i}}"
         formControlName="answerId"
@@ -13,7 +12,9 @@
       <label class="form-check-label" for="option{{i}}">{{answer}}</label>
     </div>
   </div>
-  <div class="text-center">
-    <button type="submit" class="btn btn-success" [disabled]="!questionForm.valid">Next step</button>
+  <div class="button-wrapper button-wrapper__next-button">
+    <span>&nbsp;</span>
+    <button type="submit" class="button_success" [disabled]="!questionForm.valid">Next step</button>
+    <span>Q. #{{stepInfo.currentStep}} of {{stepInfo.totalSteps}}</span>
   </div>
 </form>

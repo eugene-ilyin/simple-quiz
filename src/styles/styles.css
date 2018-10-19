@@ -1,0 +1,42 @@
+.container {
+  width: 800px;
+  margin: auto;
+}
+.container__welcome-message,
+.container__final-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 2rem;
+  border-radius: 10px;
+  background-color: #EAEDED;
+}
+.container__welcome-message .container__text-message,
+.container__final-message .container__text-message {
+  padding: 0px 10px 20px 10px;
+}
+button.success-button {
+  font-size: 2rem;
+  padding: 5px 15px;
+  border-radius: 10px;
+  background-color: #2ECC71;
+  border: 1px solid #27AE60;
+  color: white;
+}
+button.success-button:hover {
+  background-color: #27AE60;
+  cursor: pointer;
+}
+.questions-form .alert {
+  padding-left: 1.75rem;
+}
+@media (min-width: 768px) {
+  .motivation-score {
+    text-align: right;
+  }
+}
+.scores-bar {
+  margin-bottom: 10px;
+}
+.scores-bar .badge {
+  font-size: 150%;
+}

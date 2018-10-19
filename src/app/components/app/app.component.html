@@ -1,58 +1,58 @@
 <div class="container">
-  <div class="row justify-content-md-center welcome-block" *ngIf="!(currentQuestion$ | async) && !showFinalResult">
-    <!--Show an initial text.-->
-    <div class="text-center">
-      <h3>
-        Welcome to the simple quiz-game about a trainee developer!
-      </h3>
-      <div id="welcome-text" class="jumbotron">
-        Hello, dear friend.
-        You're an intern in a software company.
-        Your goal is study enough fast to pass an exam after a week of work.
-        But care about your motivation to do not burn out.
-      </div>
-      <button class="btn btn-success" (click)="startGame()">Start the game</button>
-    </div>
-  </div>
   <!--Show the header with scores.-->
-  <div class="row justify-content-md-center scores-bar" *ngIf="(currentQuestion$ | async) || showFinalResult">
-    <div class="col-md-4 font-weight-bold motivation-score">
-      <span class="badge  badge-light">Motivation: {{playerMotivation}}</span>
-      <span class="badge" *ngIf="currentAnswerResult" [ngClass]="{'badge-danger': currentAnswerResult.p1 < 0, 'badge-success': currentAnswerResult.p1 >= 0}">
+  <div class="scores-bar" *ngIf="(currentQuestion$ | async) || showFinalResult">
+    <div class="scores-bar__score">
+      <span>Motivation: {{playerMotivation}}</span>
+      <span *ngIf="currentAnswerResult" [ngClass]="{'scores-bar__score_negative': currentAnswerResult.p1 < 0, 'scores-bar__score_positive': currentAnswerResult.p1 >= 0}">
         {{_formatScore(currentAnswerResult.p1)}}
       </span>
     </div>
-    <div class="col-md-4 offset-md-4 font-weight-bold">
-      <span class="badge  badge-light">Knowledge: {{playerKnowledge}}</span>
-      <span class="badge" *ngIf="currentAnswerResult" [ngClass]="{'badge-danger': currentAnswerResult.p2 < 0, 'badge-success': currentAnswerResult.p2 >= 0}">
+    <div class="scores-bar__score">
+      <span>Knowledge: {{playerKnowledge}}</span>
+      <span *ngIf="currentAnswerResult" [ngClass]="{'scores-bar__score_negative': currentAnswerResult.p2 < 0, 'scores-bar__score_positive': currentAnswerResult.p2 >= 0}">
         {{_formatScore(currentAnswerResult.p2)}}
       </span>
     </div>
   </div>
+
+  <!--Show an initial text.-->
+  <div class="container__welcome-message container__text-message" *ngIf="showWelcomeText">
+    <h3>
+      Welcome to the simple quiz-game about a trainee developer!
+    </h3>
+    <div class="container__text-message">
+      Hello, dear friend.
+      You're an intern in a software company.
+      Your goal is study enough fast to pass an exam after a week of work.
+      But care about your motivation to do not burn out.
+    </div>
+    <div class="button-wrapper">
+      <button class="button_success" (click)="startGame()">Start the game</button>
+    </div>
+  </div>
+  <!--Show final result.-->
+  <div class="container__final-message container__text-message" *ngIf="showFinalResult">
+    <div>FINAL TEXT!</div>
+    <div class="button-wrapper">
+      <button class="button_success" (click)="restartGame()">Try again</button>
+    </div>
+  </div>
+
   <!--Show the question form.-->
-  <div class="row justify-content-md-center" *ngIf="(currentQuestion$ | async) && !currentAnswerResult">
-    <div class="col-12">
-      <app-question-form
-        [question]="currentQuestion$ | async"
-        (submittedData)="onSubmitAnswer($event)">
-      </app-question-form>
-    </div>
+  <div *ngIf="(currentQuestion$ | async) && !currentAnswerResult">
+    <app-question-form
+      [question]="currentQuestion$ | async"
+      [stepInfo]="stepInfo$ | async"
+      (submittedData)="onSubmitAnswer($event)">
+    </app-question-form>
   </div>
-  <div class="row justify-content-md-center answer-result" *ngIf="currentAnswerResult">
-    <!--Show result of the question.-->
-    <div id="question-result" class="text-center">
-      <div class="jumbotron">
-        {{ currentAnswerResult.rtext }}
+  <!--Show result of the question.-->
+  <div *ngIf="currentAnswerResult">
+    <div id="question-result" class="container__text-message">
+      {{ currentAnswerResult.rtext }}
+      <div class="button-wrapper">
+        <button class="button_success" (click)="getNextQuestion()">Next step</button>
       </div>
-      <button class="btn btn-success" (click)="getNextQuestion()">Next step</button>
-    </div>
-  </div>
-  <div class="row justify-content-md-center">
-    <!--Show final result.-->
-    <div id="final-text" getNextQuestionclass="text-center" *ngIf="showFinalResult">
-      <div>FINAL TEXT!</div>
-      <br />
-      <button class="btn btn-success" (click)="restartGame()">Try again</button>
     </div>
   </div>
 </div>
