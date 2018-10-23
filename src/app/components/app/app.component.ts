@@ -20,8 +20,8 @@ export class AppComponent implements OnDestroy {
   questions = QUESTIONS;
 
   currentQuestion$: Observable<IQuestion>;
-  stepInfo$: Observable<Object>;
   currentAnswerResult: IAnswerResult;
+  stepInfo$: Observable<Object>;
 
   playerMotivation: number;
   playerKnowledge: number;
