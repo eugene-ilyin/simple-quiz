@@ -2,7 +2,6 @@ import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import { QuestionFormComponent } from '../question-form/question-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { QUESTIONS } from '../../../data/data-questions';
 import {metaReducers, reducers} from '../../store/reducers';
 import {select, Store, StoreModule} from '@ngrx/store';
 import {filter} from 'rxjs/internal/operators';
@@ -46,7 +45,7 @@ describe('AppComponent', () => {
 
   it('The game can be launched and performed', () => {
     // Check that question will be available.
-    component.currentQuestion$.subscribe((question) => {
+    component.currentQuestion$.pipe(filter(Boolean)).subscribe((question) => {
       // When the question will be available.
       expect(component.currentAnswerResult).toBeNull('Answer shouldn\'t be available');
       expect(question.qtext).toBeTruthy('Question is not available');
@@ -60,11 +59,11 @@ describe('AppComponent', () => {
       select(fromRoot.getChosenAnswer),
       filter(Boolean)
     ).subscribe(answer => {
-      this.currentAnswerResult = answer[0];
+      component.currentAnswerResult = answer.results[0];
       expect(component.currentAnswerResult.rtext).toBeTruthy('Answer is not available');
 
       // Get scores and ensure that they are applied.
-      const prevAnswerResult = answer[0],
+      const prevAnswerResult = answer.results[0],
         prevPlayerMotivation = component.playerMotivation,
         prevPlayerKnowledge = component.playerKnowledge;
 
@@ -75,8 +74,44 @@ describe('AppComponent', () => {
       expect(component.playerMotivation).toEqual(prevPlayerMotivation + prevAnswerResult.p1, 'Scores calculated incorrectly');
       expect(component.playerKnowledge).toEqual(prevPlayerKnowledge + prevAnswerResult.p2, 'Scores calculated incorrectly');
     });
+  });
 
+  it('The game can be launched and finished', () => {
+    // Track submitted answer and go to the next question until the end.
+    store.pipe(
+      select(fromRoot.getChosenAnswer),
+      filter(Boolean)
+    ).subscribe(answer => {
+      component.currentAnswerResult = answer.results[0];
+      // Get next question and answer it.
+      component.getNextQuestion();
+    });
 
-    // Cycle to ensure that game can be finished.
+    store.pipe(
+      select(fromRoot.getCurrentQuestion),
+      filter(Boolean)
+    ).subscribe(
+      val => {
+        // We can simply choose first answer always.
+        component.onSubmitAnswer({answerId: 0});
+      }
+    );
+
+    // Check when user will answer all the questions.
+    store.pipe(
+      select(fromRoot.isNoMoreQuestions),
+      filter(Boolean)
+    ).subscribe(() => {
+      expect(component.showFinalResult).toEqual(true, 'Game cannot be finished');
+    });
+
+    // Start the game and answer first question to launch the process.
+    component.startGame();
+    component.onSubmitAnswer({answerId: 0});
+
+    // Additional check to be sure that subscription by 'fromRoot.isNoMoreQuestions' have been called.
+    setTimeout(() => {
+      expect(component.showFinalResult).toEqual(true, 'Game cannot be finished');
+    }, 1000);
   });
 });
