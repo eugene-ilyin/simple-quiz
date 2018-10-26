@@ -16,15 +16,20 @@
   </div>
 
   <!--Show an initial text.-->
-  <div class="container__welcome-message container__text-message" *ngIf="showWelcomeText">
+  <div class="container__welcome-message" *ngIf="showWelcomeText">
     <h3>
       Welcome to the simple quiz-game about a trainee developer!
     </h3>
     <div class="container__text-message">
-      Hello, dear friend.
-      You're an intern in a software company.
-      Your goal is study enough fast to pass an exam after a week of work.
-      But care about your motivation to do not burn out.
+      <div>
+        Hello, dear friend. You're an intern in a software company.
+      </div>
+      <div>
+        Your goal is study enough fast to pass an exam after a week of work. To do it you need to have <b>50+ scores of knowledge.</b>
+      </div>
+      <div>
+        But don't forget to care about your motivation to do not burn out, it will happen if your <b>motivation will drop to 0.</b>
+      </div>
     </div>
     <div class="button-wrapper">
       <button class="button_success" (click)="startGame()">Start the game</button>
@@ -32,7 +37,11 @@
   </div>
   <!--Show final result.-->
   <div class="container__final-message container__text-message" *ngIf="showFinalResult">
-    <div>FINAL TEXT!</div>
+    <div>
+      <span *ngIf="this.playerMotivation <= 0">You failed because you lose a motivation.</span>
+      <span *ngIf="this.playerMotivation > 0 && this.playerKnowledge < 50">You failed because you didn't get enough knowledge to pass an exam.</span>
+      <span *ngIf="this.playerMotivation > 0 && this.playerKnowledge >= 50">You win! Good job!</span>
+    </div>
     <div class="button-wrapper">
       <button class="button_success" (click)="restartGame()">Try again</button>
     </div>

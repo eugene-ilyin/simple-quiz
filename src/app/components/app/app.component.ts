@@ -87,7 +87,7 @@ export class AppComponent implements OnDestroy {
 
   startGame(): void {
     this.store.dispatch(new questionsAction.NextQuestion());
-    this.playerMotivation = 100;
+    this.playerMotivation = 50;
     this.playerKnowledge = 0;
     this.showWelcomeText = false;
   }
