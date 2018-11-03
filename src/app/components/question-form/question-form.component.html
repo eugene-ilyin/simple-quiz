@@ -13,8 +13,14 @@
     </div>
   </div>
   <div class="button-wrapper button-wrapper__next-button">
-    <span>&nbsp;</span>
-    <button type="submit" class="button_success" [disabled]="!questionForm.valid">Next step</button>
-    <span>Q. #{{stepInfo.currentStep}} of {{stepInfo.totalSteps}}</span>
+    <div>
+      <span>&nbsp;</span>
+    </div>
+    <div>
+      <button type="submit" class="button_success" [disabled]="!questionForm.valid">Next step</button>
+    </div>
+    <div class="button-wrapper__page_counter">
+      <span>Q. #{{stepInfo.currentStep}} of {{stepInfo.totalSteps}}</span>
+    </div>
   </div>
 </form>
