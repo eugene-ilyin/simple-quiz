@@ -37,7 +37,8 @@ export function reducer(state = initialState, action: questionsAction.Action) {
           step: {
             currentStep: nextId + 1,
             totalSteps: state.questions.length
-          }
+          },
+          noMoreQuestions: false
         };
         //  No more questions.
       } else {
